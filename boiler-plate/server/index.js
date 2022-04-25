@@ -1,14 +1,16 @@
+/* libraries and frameworks */
 const express = require('express');
 const app = express();
 const port = 5000;
 const bodyParser = require('body-parser');
 // token을 cookie에 저장하기 위한 cookie-parser define
 const cookieParser = require('cookie-parser');
+
+/* import files and variables */
 // 개발 환경에 따라 달라지는 mongoURI를 받아오기 위해 key.js를 통해 export된 module import
 const config = require('./config/key');
 // 인증 기능 구현을 위한 middleware auth define
 const { auth } = require('./middleware/auth');
-
 // export했던 User model을 import
 const { User } = require('./models/User');
 
@@ -21,6 +23,7 @@ app.use(cookieParser());
 
 /* mongoose를 활용하여 mongoDB와 연결 */
 const mongoose = require('mongoose');
+const req = require('express/lib/request');
 mongoose
   .connect(config.mongoURI) // config 변수를 통해 property mongoURI의 value를 받아옴
   .then(() => console.log('MongoDB connected'))
@@ -28,6 +31,10 @@ mongoose
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
+});
+
+app.get('/api/hello', (req, res) => {
+  res.send('헬로우!ㅋ');
 });
 
 /* client register route */
@@ -87,9 +94,21 @@ app.get('/api/users/auth', auth, (req, res) => {
     isAdmin: req.user.role === 0 ? false : true,
     isAuth: true,
     email: req.user.email,
-    lastname: req.lastname,
-    role: req.role,
-    image: req.image,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image,
+  });
+});
+
+/* client logout route */
+app.get('/api/users/logout', auth, (req, res) => {
+  // middleware auth에서 user id를 가져와서 일치하는 user를 찾은 다음 token을 지워줌. 이후 err 여부에 따라 다른 msg 반환
+  User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({
+      success: true,
+    });
   });
 });
 

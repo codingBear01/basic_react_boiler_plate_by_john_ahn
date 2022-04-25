@@ -41,7 +41,6 @@ const userSchema = mongoose.Schema({
 userSchema.pre('save', function (next) {
   // this는 user model을 가리킴.
   const user = this;
-  console.log(this);
 
   // user model 내의 password property가 변경될 때만 암호화 수행
   if (user.isModified('password')) {
@@ -94,7 +93,7 @@ userSchema.statics.findByToken = function (token, cb) {
   const user = this;
 
   // decode token
-  jwt.verify(token, 'secretToken', function (err, decoded) {
+  jwt.verify(token, 'userToken', function (err, decoded) {
     // '_id'를 통해 user를 찾은 다음 client token과 DB token 일치 여부 확인
     user.findOne({ _id: decoded, token: token }, function (err, user) {
       if (err) return cb(err);
