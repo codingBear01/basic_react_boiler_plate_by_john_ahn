@@ -6,7 +6,11 @@ function LandingPage() {
     axios.get('/api/hello').then((response) => console.log(response.data));
   }, []);
 
-  return <div>LandingPage라능 ㅇㅅㅇ</div>;
+  return (
+    <div className="landing_div">
+      <h2>시작 페이지</h2>
+    </div>
+  );
 }
 
 export default LandingPage;
