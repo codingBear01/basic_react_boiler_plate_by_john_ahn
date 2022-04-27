@@ -89,7 +89,7 @@ app.post('/api/users/login', (req, res) => {
 /* auth route: client cookie 안의 token을 복호화하여 server DB 안의 token과 비교하는 식으로 인증 기능 구현 */
 app.get('/api/users/auth', auth, (req, res) => {
   // middleware auth가 true로 반환되면 아래 정보들을 client에 json 형식으로 전달
-  req.status(200).json({
+  res.status(200).json({
     _id: req.user._id,
     isAdmin: req.user.role === 0 ? false : true,
     isAuth: true,

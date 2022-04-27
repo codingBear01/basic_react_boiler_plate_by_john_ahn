@@ -1,11 +1,3 @@
-.login_div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
 .login_form {
   display: flex;
   flex-direction: column;

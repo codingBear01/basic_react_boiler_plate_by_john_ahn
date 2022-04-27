@@ -1,5 +1,6 @@
 @import './LandingPage.css';
 @import './LoginPage.css';
+@import './RegisterPage.css';
 
 body {
   margin: 0;
@@ -17,6 +18,14 @@ code {
 }
 
 #root {
+  width: 100%;
+  height: 100%;
+}
+
+.page_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
